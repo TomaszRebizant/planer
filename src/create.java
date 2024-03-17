@@ -1,23 +1,28 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
 import java.util.HashMap;
+import java.util.Scanner;
 
 
 public class create extends JFrame {
     public static JFrame frame;
     public static JPanel choosemenu;
     private static JPanel panel2;
+    public static File currentFile = new File("src/files/monday.txt");
 
-    private static JButton button1;
-
-    private static JButton button2;
     static GridBagConstraints gbc = new GridBagConstraints();
 
     static GridBagLayout layout = new GridBagLayout();
 
     private static HashMap<String, JButton> buttons = new HashMap<>();
+    private static HashMap<String, JTextArea> textAreas = new HashMap<String, JTextArea>();
+    private static JLabel label = new JLabel();
+
+    private static JTextPane asdd = new JTextPane();
 
 
     public create() {
@@ -34,8 +39,11 @@ public class create extends JFrame {
         addWeekButtons();
         choosemenu.setLayout(layout);
         resize(choosemenu, frame);
+        panel2.add(label);
+        createTextArea();
 
     }
+
         public static void resize(JPanel choosemenu, JFrame frame){
 
             frame.addComponentListener(new ComponentAdapter() {
@@ -62,16 +70,16 @@ public static void setFrame() {
     frame = new JFrame();
     frame.setTitle("Plan dnia");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(1000, 1000);
+    frame.setSize(1000, 700);
     frame.setLayout(new BorderLayout(1, 1));
     frame.setVisible(true);
 }
  public static void setPanel2(int width, int height) {
         panel2 = new JPanel();
         panel2.setSize(width, height);
-        panel2.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        panel2.setLayout(new BorderLayout(1, 1));
         frame.add(panel2, BorderLayout.CENTER);
-        panel2.setBackground(Color.BLUE);
+        panel2.setBackground(Color.WHITE);
     }
     public static void addButton(JButton button) {
         button.setBackground(new Color(255, 208, 79));
@@ -82,23 +90,77 @@ public static void setFrame() {
         choosemenu.add(button);
         buttons.put(button.getText(), button);
         layout.setConstraints(button, gbc);
+        button.addActionListener(e -> {
+            currentFile = new File("src/files/" + button.getText() + ".txt");
+            showFile(currentFile);
+            panel2.removeAll();
+            panel2.add(label);
+            panel2.revalidate();
+            panel2.repaint();
+        });
+
 
     }
+    public static void addTextField(JTextField textField) {
+        textField.setPreferredSize(new Dimension(75*frame.getWidth()/1000, 50*frame.getHeight()/1000));
+        textField.setVisible(true);
+        textField.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel2.add(textField);
+        layout.setConstraints(textField, gbc);
+    }
+    public static void addTextArea(JTextArea textArea) {
+        textArea.setPreferredSize(new Dimension(75*frame.getWidth()/1000, 2*frame.getHeight()/1000));
+        textArea.setRows(1);
+        textArea.setColumns(1);
+        textArea.setBackground(new Color(205, 255, 255));
+        panel2.add(textArea, gbc);
+        textAreas.put(textArea.getText(), textArea);
+    }
     public static void addWeekButtons(){
-        JButton monday = new JButton("Poniedziałek");
+        JButton monday = new JButton("monday");
         addButton(monday);
-        JButton tuesday = new JButton("Wtorek");
+        JButton tuesday = new JButton("tuesday");
         addButton(tuesday);
-        JButton thurdsay = new JButton("Środa");
+        JButton thurdsay = new JButton("wednesday");
         addButton(thurdsay);
-        JButton wednesday = new JButton("Czwartek");
+        JButton wednesday = new JButton("thursday");
         addButton(wednesday);
-        JButton friday = new JButton("Piątek");
+        JButton friday = new JButton("friday");
         addButton(friday);
-        JButton saturday = new JButton("Sobota");
+        JButton saturday = new JButton("satuday");
         addButton(saturday);
-        JButton sunday = new JButton("Niedziela");
+        JButton sunday = new JButton("sunday");
         addButton(sunday);
+    }
+    public static void createFile(String name) {
+        File file = new File(name);
+}
+    public static void showFile(File file){
+        try {
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                TextArea textArea = new TextArea(line);
+                panel2.add(textArea);
+            }
+            scanner.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void createTextArea() {
+        JTextArea[] table = new JTextArea[2];
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 1); // Tworzymy ramkę
+        for (int i = 0; i < 2; i++) {
+            addTextArea(table[i]);
+            table[i].setBorder(border); // Dodajemy ramkę do JTextArea
+            constraints.gridy = i; // Ustawiamy pozycję y dla każdego JTextArea
+            panel2.add(table[i], constraints); // Dodajemy JTextArea do panelu z określonymi ograniczeniami
+        }
+        panel2.revalidate(); // Obliczamy na nowo rozmiary panelu
+        panel2.repaint(); // Rysujemy na nowo panel
     }
 
 }

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.Scanner;
 
 
 public class Main {
@@ -7,8 +8,8 @@ public class Main {
             public void run() {
                 create abc = new create();
             }
-        });
-    }
+
+    });
 
 
-}
+}}
