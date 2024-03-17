@@ -2,43 +2,58 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.HashMap;
 
-public class create {
-    private static JFrame frame;
-    private static JPanel choosemenu;
+
+public class create extends JFrame {
+    public static JFrame frame;
+    public static JPanel choosemenu;
     private static JPanel panel2;
 
     private static JButton button1;
 
-    public static void createAndShowGUI() {
-        setFrame();
-        setChoosemenu(frame.getWidth()/10, 50);
-        setPanel2(frame.getWidth(), frame.getHeight());
+    private static JButton button2;
+    static GridBagConstraints gbc = new GridBagConstraints();
 
-        button1 = new JButton("Poniedziałek");
-        choosemenu.add(button1);
-        buttonstyle(button1);
-        frame.setSize(700, 700);
-        frame.setVisible(true);
-        resize(button1, choosemenu, frame);
+    static GridBagLayout layout = new GridBagLayout();
+
+    private static HashMap<String, JButton> buttons = new HashMap<>();
+
+
+    public create() {
+        setFrame();
+        createAndShowGUI();
     }
-        public static void resize(JButton button1, JPanel choosemenu, JFrame frame){
-            button1.setPreferredSize(new Dimension(choosemenu.getWidth(), 100));
+
+    public static void createAndShowGUI() {
+        setChooseMenu(frame.getWidth()/7, frame.getWidth()/7);
+        setPanel2(frame.getWidth(), frame.getHeight());
+        gbc.insets = new Insets(10, 0, 10, 0);
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        addWeekButtons();
+        choosemenu.setLayout(layout);
+        resize(choosemenu, frame);
+
+    }
+        public static void resize(JPanel choosemenu, JFrame frame){
+
             frame.addComponentListener(new ComponentAdapter() {
                 @Override
                 public void componentResized(ComponentEvent e) {
-                    choosemenu.setPreferredSize(new Dimension(frame.getWidth() /10, frame.getHeight()));
-                    button1.setPreferredSize(new Dimension(choosemenu.getWidth(), 50));
+                    choosemenu.setPreferredSize(new Dimension(frame.getWidth()/7, frame.getHeight()));
+                    for (JButton button : buttons.values()) {
+                        button.setPreferredSize(new Dimension(90*frame.getWidth()/1000, 75*frame.getHeight()/1000));
+                    }
                     frame.revalidate();
                     frame.repaint();
                 }
             });
         }
 
-    public static void setChoosemenu(int width, int height) {
+    public static void setChooseMenu(int width, int height) {
         choosemenu = new JPanel();
-        choosemenu.setSize(width, height);
-        choosemenu.setLayout(new BorderLayout(0, 0));
+        choosemenu.setPreferredSize(new Dimension(width, height));
         frame.add(choosemenu, BorderLayout.WEST);
         choosemenu.setBackground(new Color(235, 230, 206));
 
@@ -47,8 +62,9 @@ public static void setFrame() {
     frame = new JFrame();
     frame.setTitle("Plan dnia");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(600, 600);
-    frame.setLayout(new BorderLayout(0, 0));
+    frame.setSize(1000, 1000);
+    frame.setLayout(new BorderLayout(1, 1));
+    frame.setVisible(true);
 }
  public static void setPanel2(int width, int height) {
         panel2 = new JPanel();
@@ -57,14 +73,32 @@ public static void setFrame() {
         frame.add(panel2, BorderLayout.CENTER);
         panel2.setBackground(Color.BLUE);
     }
-    public static void buttonstyle(JButton button) {
-        button.setMinimumSize(new Dimension(50, 50));
+    public static void addButton(JButton button) {
         button.setBackground(new Color(255, 208, 79));
-        button.setBorder(BorderFactory.createEmptyBorder());
-        button.setHorizontalAlignment(SwingConstants.LEFT);
-        button.setFocusPainted(false);
-        button.setContentAreaFilled(false);
-        button.setOpaque(true);
+        button.setFont(new Font("Arial", Font.PLAIN, 12));
+        button.setPreferredSize(new Dimension(75*frame.getWidth()/1000, 50*frame.getHeight()/1000)  );
         button.setVisible(true);
+        button.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        choosemenu.add(button);
+        buttons.put(button.getText(), button);
+        layout.setConstraints(button, gbc);
+
     }
+    public static void addWeekButtons(){
+        JButton monday = new JButton("Poniedziałek");
+        addButton(monday);
+        JButton tuesday = new JButton("Wtorek");
+        addButton(tuesday);
+        JButton thurdsay = new JButton("Środa");
+        addButton(thurdsay);
+        JButton wednesday = new JButton("Czwartek");
+        addButton(wednesday);
+        JButton friday = new JButton("Piątek");
+        addButton(friday);
+        JButton saturday = new JButton("Sobota");
+        addButton(saturday);
+        JButton sunday = new JButton("Niedziela");
+        addButton(sunday);
+    }
+
 }
