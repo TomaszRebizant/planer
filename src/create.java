@@ -40,7 +40,11 @@ public class create extends JFrame {
         choosemenu.setLayout(layout);
         resize(choosemenu, frame);
         panel2.add(label);
+        panel2.setLayout(layout);
         createTextArea();
+        frame.revalidate();
+        frame.repaint();
+
 
     }
 
@@ -80,6 +84,11 @@ public static void setFrame() {
         panel2.setLayout(new BorderLayout(1, 1));
         frame.add(panel2, BorderLayout.CENTER);
         panel2.setBackground(Color.WHITE);
+        JScrollPane scrollPane = new JScrollPane(panel2);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        frame.add(scrollPane);
+
     }
     public static void addButton(JButton button) {
         button.setBackground(new Color(255, 208, 79));
@@ -109,10 +118,13 @@ public static void setFrame() {
         layout.setConstraints(textField, gbc);
     }
     public static void addTextArea(JTextArea textArea) {
-        textArea.setPreferredSize(new Dimension(75*frame.getWidth()/1000, 2*frame.getHeight()/1000));
-        textArea.setRows(1);
-        textArea.setColumns(1);
-        textArea.setBackground(new Color(205, 255, 255));
+        textArea.setPreferredSize(new Dimension(75*frame.getWidth()/1000, 88*frame.getHeight()/1000));
+        textArea.setRows(10);
+        textArea.setColumns(10);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setMinimumSize(new Dimension(75*frame.getWidth()/1000, 44*frame.getHeight()/1000));
+        textArea.setBackground(new Color(208, 60, 187));
         panel2.add(textArea, gbc);
         textAreas.put(textArea.getText(), textArea);
     }
@@ -149,15 +161,13 @@ public static void setFrame() {
         }
     }
     public static void createTextArea() {
-        JTextArea[] table = new JTextArea[2];
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        JTextArea[] table = new JTextArea[48];
         Border border = BorderFactory.createLineBorder(Color.BLACK, 1); // Tworzymy ramkę
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 48; i++) {
+            table[i] = new JTextArea();
             addTextArea(table[i]);
             table[i].setBorder(border); // Dodajemy ramkę do JTextArea
-            constraints.gridy = i; // Ustawiamy pozycję y dla każdego JTextArea
-            panel2.add(table[i], constraints); // Dodajemy JTextArea do panelu z określonymi ograniczeniami
+            panel2.add(table[i], gbc); // Dodajemy JTextArea do panelu z określonymi ograniczeniami
         }
         panel2.revalidate(); // Obliczamy na nowo rozmiary panelu
         panel2.repaint(); // Rysujemy na nowo panel
