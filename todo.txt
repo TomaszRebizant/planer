@@ -1,0 +1,3 @@
+Zrobić opcje zapisywanie do pliku
+Ustawić jakoś te textArea w 2 panelu bo wyglądają jak gówno
+Zastanowić się jak zrealizować opcje checkboxów jako zadań do realizacji

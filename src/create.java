@@ -18,13 +18,13 @@ public class create extends JFrame {
 
     static GridBagLayout layout = new GridBagLayout();
 
-    private static HashMap<String, JButton> buttons = new HashMap<>();
-    private static HashMap<String, JTextArea> textAreas = new HashMap<String, JTextArea>();
-    private static JLabel label = new JLabel();
+    private static final HashMap<String, JButton> buttons = new HashMap<>();
+    private static final HashMap<String, JTextArea> textAreas = new HashMap<String, JTextArea>();
+    private static final JLabel label = new JLabel();
 
-    private  static JTextArea[] table = new JTextArea[48];
+    private  static final JTextArea[] table = new JTextArea[48];
 
-    private static JTextPane asdd = new JTextPane();
+
 
 
     public create() {
