@@ -22,6 +22,8 @@ public class create extends JFrame {
     private static HashMap<String, JTextArea> textAreas = new HashMap<String, JTextArea>();
     private static JLabel label = new JLabel();
 
+    private  static JTextArea[] table = new JTextArea[48];
+
     private static JTextPane asdd = new JTextPane();
 
 
@@ -87,6 +89,7 @@ public static void setFrame() {
         JScrollPane scrollPane = new JScrollPane(panel2);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         frame.add(scrollPane);
 
     }
@@ -102,7 +105,6 @@ public static void setFrame() {
         button.addActionListener(e -> {
             currentFile = new File("src/files/" + button.getText() + ".txt");
             showFile(currentFile);
-            panel2.removeAll();
             panel2.add(label);
             panel2.revalidate();
             panel2.repaint();
@@ -139,7 +141,7 @@ public static void setFrame() {
         addButton(wednesday);
         JButton friday = new JButton("friday");
         addButton(friday);
-        JButton saturday = new JButton("satuday");
+        JButton saturday = new JButton("saturday");
         addButton(saturday);
         JButton sunday = new JButton("sunday");
         addButton(sunday);
@@ -149,11 +151,16 @@ public static void setFrame() {
 }
     public static void showFile(File file){
         try {
+            for (int i = 0; i < 48; i++) {
+                table[i].setText("");
+            }
+            int counter = 0;
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                TextArea textArea = new TextArea(line);
-                panel2.add(textArea);
+                table[counter].setText(line);
+                counter++;
+
             }
             scanner.close();
         } catch (Exception e) {
@@ -161,7 +168,6 @@ public static void setFrame() {
         }
     }
     public static void createTextArea() {
-        JTextArea[] table = new JTextArea[48];
         Border border = BorderFactory.createLineBorder(Color.BLACK, 1); // Tworzymy ramkę
         for (int i = 0; i < 48; i++) {
             table[i] = new JTextArea();
