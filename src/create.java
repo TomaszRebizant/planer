@@ -153,7 +153,7 @@ public static void setFrame() {
     public static void showFile(File file){
         try {
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < textAreas.size(); i++) {
                 JTextArea textArea = textAreas.get(String.valueOf(i+1));
                 textArea.setText("");
             }

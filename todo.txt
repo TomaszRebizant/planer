@@ -1,3 +1,6 @@
+Do zrobienia:
 Zrobić opcje zapisywanie do pliku
-Ustawić jakoś te textArea w 2 panelu bo wyglądają źle
 Zastanowić się jak zrealizować opcje checkboxów jako zadań do realizacji
+
+Zrobione:
+Ustawić jakoś te textArea w 2 panelu bo wyglądają źle
