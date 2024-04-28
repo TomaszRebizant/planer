@@ -12,10 +12,10 @@ public class create extends JFrame {
     public static JFrame frame;
     public static JPanel choosemenu;
     private static JPanel panel2;
+    public static int counter = 0;
     public static File currentFile = new File("src/files/monday.txt");
 
     static GridBagConstraints gbc = new GridBagConstraints();
-
     static GridBagLayout layout = new GridBagLayout();
 
     private static final HashMap<String, JButton> buttons = new HashMap<>();
@@ -43,11 +43,11 @@ public class create extends JFrame {
         resize(choosemenu, frame);
         panel2.add(label);
         panel2.setLayout(layout);
-        createTextArea();
+        layout.setConstraints(label, gbc);
+        createTextArea(1,6);
+        createTextArea(2,6);
         frame.revalidate();
         frame.repaint();
-
-
     }
 
         public static void resize(JPanel choosemenu, JFrame frame){
@@ -126,9 +126,10 @@ public static void setFrame() {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setMinimumSize(new Dimension(75*frame.getWidth()/1000, 44*frame.getHeight()/1000));
-        textArea.setBackground(new Color(208, 60, 187));
-        panel2.add(textArea, gbc);
-        textAreas.put(textArea.getText(), textArea);
+        textArea.setBackground(new Color(205, 195, 110));
+        panel2.add(textArea);
+        counter++;
+        textAreas.put(String.valueOf(counter), textArea);
     }
     public static void addWeekButtons(){
         JButton monday = new JButton("monday");
@@ -151,14 +152,17 @@ public static void setFrame() {
 }
     public static void showFile(File file){
         try {
-            for (int i = 0; i < 48; i++) {
-                table[i].setText("");
+
+            for (int i = 0; i < 10; i++) {
+                JTextArea textArea = textAreas.get(String.valueOf(i+1));
+                textArea.setText("");
             }
             int counter = 0;
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                table[counter].setText(line);
+                JTextArea textArea = textAreas.get(String.valueOf(counter+1));
+                   textArea.setText(line);
                 counter++;
 
             }
@@ -167,16 +171,18 @@ public static void setFrame() {
             e.printStackTrace();
         }
     }
-    public static void createTextArea() {
-        Border border = BorderFactory.createLineBorder(Color.BLACK, 1); // Tworzymy ramkę
-        for (int i = 0; i < 48; i++) {
+    public static void createTextArea(int kolumna, int wiersze) {
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+        int g = kolumna;
+        for (int i = 0; i < wiersze+1; i++) {
             table[i] = new JTextArea();
             addTextArea(table[i]);
-            table[i].setBorder(border); // Dodajemy ramkę do JTextArea
-            panel2.add(table[i], gbc); // Dodajemy JTextArea do panelu z określonymi ograniczeniami
+            gbc.gridy = i;
+            table[i].setBorder(border);
+            panel2.add(table[i], new GridBagConstraints() {{gridx = g;insets = new Insets(0,0,5,10);}});
         }
-        panel2.revalidate(); // Obliczamy na nowo rozmiary panelu
-        panel2.repaint(); // Rysujemy na nowo panel
+        panel2.revalidate();
+        panel2.repaint();
     }
 
 }
