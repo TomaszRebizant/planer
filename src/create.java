@@ -1,7 +1,5 @@
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
-import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -12,17 +10,14 @@ import java.util.HashMap;
 
 
 public class create extends JFrame {
+    public static final JLabel label = new JLabel();
     public static JPanel choosemenu;
     public static JPanel panel2;
-    public static final JLabel label = new JLabel();
-
-    static GridBagConstraints gbc = new GridBagConstraints();
-    static GridBagLayout layout = new GridBagLayout();
-
     public static File currentFile = new File("src/files/monday.txt");
-
     public static int textAreasSize = 0;
     public static int isClicked = 0;
+    static GridBagConstraints gbc = new GridBagConstraints();
+    static GridBagLayout layout = new GridBagLayout();
 
     public create() {
         JFrame frame = new JFrame();
@@ -32,15 +27,13 @@ public class create extends JFrame {
         createAndShowGUI(frame, frame2);
     }
 
-
     public static void createAndShowGUI(JFrame frame, JFrame frame2) {
         frame2.setVisible(false);
-
         HashMap<String, JButton> buttons = new HashMap<>();
-        JTextArea[] table = new JTextArea[48];
         JTextArea[] table2 = new JTextArea[48];
-        HashMap<String, JTextArea> textAreas = new HashMap<String, JTextArea>();
-        HashMap<String, JTextArea> textAreasPanel2 = new HashMap<String, JTextArea>();
+        HashMap<String, JTextArea> textAreas = new HashMap<>();
+        HashMap<String, JTextArea> textAreasPanel2 = new HashMap<>();
+        HashMap<String, JTextField> textFields = new HashMap<>();
         setChooseMenu(frame.getWidth() / 7, frame.getWidth() / 7, frame);
         setPanel2(frame.getWidth(), frame.getHeight(), frame);
         gbc.insets = new Insets(10, 0, 10, 0);
@@ -52,13 +45,13 @@ public class create extends JFrame {
         panel2.add(label);
         panel2.setLayout(layout);
         layout.setConstraints(label, gbc);
-        // createTextArea(1, 6, panel2, textAreasPanel2, table2, frame);
-       // createTextArea(2, 6, panel2, textAreasPanel2, table2, frame);
-       // Buttons.saveButton();
-        //Buttons.showFrame2(frame2);
-       // Buttons.hideFrame2(frame2);
-        //JPanel panel = new JPanel();
-       // setPanel(panel, frame2, textAreas, table);
+        createTextArea(1, 6, panel2, textAreasPanel2, table2, frame);
+        createTextArea(2, 6, panel2, textAreasPanel2, table2, frame);
+        Buttons.saveButton();
+        Buttons.showFrame2(frame2);
+        Buttons.hideFrame2(frame2);
+        JPanel panel = new JPanel();
+        setPanel(panel, frame2);
         JTextField textField = new JTextField();
         textField.setEditable(false);
         textField.setText("Poniedziałek");
@@ -102,8 +95,7 @@ public class create extends JFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                if(isClicked == 1)
-                textField.setText("Bagno");
+                if (isClicked == 1) textField.setText("Bagno");
             }
 
             @Override
@@ -113,7 +105,9 @@ public class create extends JFrame {
         });
         frame.revalidate();
         frame.repaint();
-       // resizeJTextAreas(textAreas, frame2);
+        createTextField(8, 2, textFields, panel);
+
+        resizeJTextAreas(textAreas, frame2);
     }
 
     public static void resize(JPanel choosemenu, JFrame frame, HashMap<String, JButton> buttons) {
@@ -147,8 +141,27 @@ public class create extends JFrame {
         frame.setVisible(true);
     }
 
-    public static void addTextFields(JTextField textField) {
+    public static void addTextFields(JTextField textField, JPanel panel) {
+        textField.setPreferredSize(new Dimension(100, 100));
+        textField.setMinimumSize(new Dimension(100, 40));
+        textField.setEditable(false);
+        textField.setVisible(true);
+        chooser(textField, panel);
+    }
 
+    public static void createTextField(int wiersze, int kolumny, HashMap<String, JTextField> HashMap, JPanel panel) {
+
+        for (int i = 0; i < wiersze; i++) {
+            for (int j = 0; j < kolumny; j++) {
+                JTextField textField = new JTextField();
+                addTextFields(textField, panel);
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.gridy = i;
+                gbc.gridx = j;
+                panel.add(textField, gbc);
+                HashMap.put((i + "," + j), textField);
+            }
+        }
     }
 
     public static void setPanel2(int width, int height, JFrame frame) {
@@ -165,15 +178,12 @@ public class create extends JFrame {
 
     }
 
-    public static void setPanel(JPanel panel, JFrame frame, HashMap<String, JTextArea> textAreas, JTextArea[] table) {
+    public static void setPanel(JPanel panel, JFrame frame) {
         GridBagConstraints gbcPanel = new GridBagConstraints();
         GridBagLayout layoutPanel = new GridBagLayout();
         layoutPanel.addLayoutComponent(panel, gbcPanel);
         panel.setSize(frame.getWidth(), frame.getHeight());
         panel.setLayout(layoutPanel);
-        createTextArea(1, 6, panel, textAreas, table, frame);
-        createTextArea(2, 6, panel, textAreas, table, frame);
-        createTextArea(3, 6, panel, textAreas, table, frame);
         frame.add(panel);
     }
 
@@ -189,54 +199,22 @@ public class create extends JFrame {
         textAreasSize++;
         textAreasy.put(String.valueOf(textAreasSize), jTextAreay);
     }
-    public static void addTextAreaChooser(JTextArea jTextAreay, HashMap<String, JTextArea> textAreasy, JFrame frame) {
-        jTextAreay.setPreferredSize(new Dimension(75 * frame.getWidth() / 1000, 88 * frame.getHeight() / 1000));
-        jTextAreay.setRows(10);
-        jTextAreay.setColumns(10);
-        jTextAreay.setLineWrap(true);
-        jTextAreay.setWrapStyleWord(true);
-        jTextAreay.setMinimumSize(new Dimension(75 * frame.getWidth() / 1000, 44 * frame.getHeight() / 1000));
-        jTextAreay.setBackground(new Color(205, 195, 110));
-        panel2.add(jTextAreay);
-        textAreasSize++;
-        textAreasy.put(String.valueOf(textAreasSize), jTextAreay);
-        chooser(jTextAreay, frame);
-    }
 
     public static void createTextArea(int kolumna, int wiersze, JPanel panel, HashMap<String, JTextArea> textAreasx, JTextArea[] tablex, JFrame frame) {
         Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-        int g = kolumna;
         for (int i = 0; i < wiersze; i++) {
             tablex[i] = new JTextArea();
             addTextArea(tablex[i], textAreasx, frame);
             gbc.gridy = i;
             tablex[i].setBorder(border);
             panel.add(tablex[i], new GridBagConstraints() {{
-                gridx = g;
+                gridx = kolumna;
                 insets = new Insets(0, 0, 5, 10);
             }});
         }
         panel.revalidate();
         panel.repaint();
     }
-
-    public static void createTextAreaChooser(int kolumna, int wiersze, JPanel panel, HashMap<String, JTextArea> textAreasx, JTextArea[] tablex, JFrame frame) {
-        Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
-        int g = kolumna;
-        for (int i = 0; i < wiersze; i++) {
-            tablex[i] = new JTextArea();
-            addTextAreaChooser(tablex[i], textAreasx, frame);
-            gbc.gridy = i;
-            tablex[i].setBorder(border);
-            panel.add(tablex[i], new GridBagConstraints() {{
-                gridx = g;
-                insets = new Insets(0, 0, 5, 10);
-            }});
-        }
-        panel.revalidate();
-        panel.repaint();
-    }
-
 
     public static void resizeJTextAreas(HashMap<String, JTextArea> textAreas, JFrame frame) {
         for (JTextArea textArea : textAreas.values()) {
@@ -248,34 +226,61 @@ public class create extends JFrame {
         frame.repaint();
     }
 
-    public static void chooser(JTextArea textArea, JFrame frame2) {
+    public static void chooser(JTextField textField, JPanel panel) {
         int[] x = {0};
-            textArea.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
+        panel.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
 
+            @Override
+            public void mousePressed(MouseEvent e) {
+                x[0] = 1;
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                x[0] = 0;
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        textField.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                x[0] = 1;
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                x[0] = 0;
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if (x[0] == 1) {
+                    textField.setBackground(Color.RED);
                 }
+            }
 
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    x[0] =1;
-                }
+            @Override
+            public void mouseExited(MouseEvent e) {
 
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    x[0] =0;
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                        textArea.setBackground(Color.RED);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-
-                }
-            });
+            }
+        });
 
     }
 }
