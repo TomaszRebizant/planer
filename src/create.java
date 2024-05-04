@@ -128,7 +128,7 @@ public class create extends JFrame {
         });
         frame.revalidate();
         frame.repaint();
-        createTextField(8, 2, textFields, panel);
+        createTextField(6, 2, textFields, panel);
         resizeJTextAreas(textAreas, frame2);
     }
 
