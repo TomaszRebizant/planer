@@ -4,7 +4,6 @@ ustawić textArea w frame2 tak aby ukazywały godziny
 Zaznaczenie wiecej niż jednego textArea powoduje wybranie wielu godzin na jedno zajecie
 Po wybraniu godziny wyskakuje okno z mozliwoscia wpisania zadania i zapisuje w textArea na frame
 
-
 Zrobione:
 Zrobić opcje zapisywanie do pliku
 Ustawić jakoś te textArea w 2 panelu bo wyglądają źle

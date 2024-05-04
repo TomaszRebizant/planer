@@ -9,18 +9,16 @@ public class Files {
     public static void showFile(File file, HashMap<String, JTextArea> textAreasz){
         try {
 
-            for (int i = 0; i < textAreasz.size(); i++) {
-                JTextArea textArea = textAreasz.get(String.valueOf(i+1));
+            for (HashMap.Entry<String, JTextArea> entry : textAreasz.entrySet()) {
+                JTextArea textArea = entry.getValue();
                 textArea.setText("");
             }
-            int counter = 0;
             Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                JTextArea textArea = textAreasz.get(String.valueOf(counter+1));
-                textArea.setText(line);
-                counter++;
-
+                for(HashMap.Entry<String, JTextArea> entry : textAreasz.entrySet()){
+                    if(scanner.hasNextLine()){
+                    JTextArea textArea = entry.getValue();
+                    textArea.setText(scanner.nextLine());
+                }
             }
             scanner.close();
         } catch (Exception e) {
@@ -30,8 +28,8 @@ public class Files {
     public static void writeToFile(File file, HashMap<String, JTextArea> textAreas) {
         try {
             BufferedWriter writer = new BufferedWriter(new java.io.FileWriter(file));
-            for (int i = 0; i < textAreas.size(); i++) {
-                JTextArea textArea = textAreas.get(String.valueOf(i+1));
+            for (HashMap.Entry<String, JTextArea> entry : textAreas.entrySet()) {
+                JTextArea textArea = entry.getValue();
                 writer.write(textArea.getText());
                 writer.newLine();
             }

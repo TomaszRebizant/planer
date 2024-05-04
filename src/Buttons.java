@@ -39,9 +39,9 @@ public class Buttons {
         JButton sunday = new JButton("sunday");
         addButton(sunday, przyciski, Jtextarea, frame);
     }
-    public static void saveButton(){
+    public static void saveButton(HashMap textareas){
         JButton save = new JButton("Save");
-       // save.addActionListener(e -> Files.writeToFile(create.currentFile, przyckiski));
+       save.addActionListener(e -> Files.writeToFile(create.currentFile, textareas));
         create.panel2.add(save);
     }
     public static void showFrame2(JFrame frame2){
