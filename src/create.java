@@ -47,8 +47,10 @@ public class create extends JFrame {
         panel2.add(label);
         panel2.setLayout(layout);
         layout.setConstraints(label, gbc);
-        createTextArea(1, 6, panel2, textAreasPanel2, frame);
-        createTextArea(2, 6, panel2, textAreasPanel2, frame);
+        createTextArea(1, 12, panel2, textAreasPanel2, frame);
+        createTextArea(2, 12, panel2, textAreasPanel2, frame);
+        createTextArea(3, 12, panel2, textAreasPanel2, frame);
+        createTextArea(4, 12, panel2, textAreasPanel2, frame);
         Buttons.saveButton(textAreasPanel2);
         Buttons.showFrame2(frame2);
         Buttons.hideFrame2(frame2);
@@ -211,13 +213,12 @@ public class create extends JFrame {
     }
 
     public static void addTextArea(JTextArea jTextAreay, HashMap<Integer, JTextArea> textAreasy, JFrame frame) {
-        jTextAreay.setPreferredSize(new Dimension(75 * frame.getWidth() / 1000, 88 * frame.getHeight() / 1000));
-        jTextAreay.setRows(10);
+        jTextAreay.setRows(3);
         jTextAreay.setColumns(10);
         jTextAreay.setLineWrap(true);
         jTextAreay.setWrapStyleWord(true);
-        jTextAreay.setMinimumSize(new Dimension(75 * frame.getWidth() / 1000, 44 * frame.getHeight() / 1000));
-        jTextAreay.setPreferredSize(new Dimension(75 * frame.getWidth() / 1000, 44 * frame.getHeight() / 1000));
+        jTextAreay.setMinimumSize(new Dimension(75 * frame.getWidth() / 1000, 20 * frame.getHeight() / 1000));
+        jTextAreay.setPreferredSize(new Dimension(75 * frame.getWidth() / 1000, 20 * frame.getHeight() / 1000));
         jTextAreay.setBackground(new Color(180, 134, 228));
         panel2.add(jTextAreay);
         textAreasSize++;
